@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">FoodRecommenderApp</string>
+    <string name="front_page_title">LOGIN</string>
+    <string name="front_page_login_button">GET STARTED\n</string>
+    <string name="home_page_title">Food Recommender App\n</string>
+    <string name="username_input_hint">username\n</string>
+    <string name="password_input_hint">password\n</string>
+    <string name="app_logo_description">app logo\n</string>
+    <string name="contribute_recipe_button_text">CONTRIBUTE RECIPE</string>
+    <string name="recipe_lookup_button_text">" Recipe Lookup"</string>
+    <string name="ingredient_based_recipe_finder_button_text">Ingredient-based Recipe Finder</string>
+    <string name="back_button_text">GO BACK\n</string>
+</resources>

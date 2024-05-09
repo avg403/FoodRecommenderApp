@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/titleContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp">
+
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/app_logo"
+            android:layout_marginTop="-8dp" />
+
+        <TextView
+            android:id="@+id/homePageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_page_title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#800000" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/contributeRecipeButton"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="@string/contribute_recipe_button_text"
+        android:layout_below="@id/titleContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/recipeLookupButton"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="@string/recipe_lookup_button_text"
+        android:layout_below="@id/contributeRecipeButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/ingredientBasedRecipeFinderButton"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="@string/ingredient_based_recipe_finder_button_text"
+        android:layout_below="@id/recipeLookupButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="@string/back_button_text"
+        android:layout_below="@id/ingredientBasedRecipeFinderButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white" />
+
+    <!-- Add other UI components for the home page here -->
+
+</RelativeLayout>
