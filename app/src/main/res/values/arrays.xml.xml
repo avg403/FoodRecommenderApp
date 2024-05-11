@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ingredient_units">
+        <item>spoon</item>
+        <item>teaspoon (tsp)</item>
+        <item>tablespoon (tbsp)</item>
+        <item>cup (cp)</item>
+        <item>gram (g)</item>
+        <item>kilogram (kg)</item>
+        <item>milligram (mg)</item>
+        <item>liter (l)</item>
+        <item>milliliter (ml)</item>
+    </string-array>
+</resources>

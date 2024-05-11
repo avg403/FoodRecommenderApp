@@ -35,6 +35,9 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
         <activity android:name=".IngredientBasedRecipeFinderActivity"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".ShowIngredientsActivity"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        </activity>
 
     </application>
 

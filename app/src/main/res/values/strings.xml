@@ -10,4 +10,5 @@
     <string name="recipe_lookup_button_text">" Recipe Lookup"</string>
     <string name="ingredient_based_recipe_finder_button_text">Ingredient-based Recipe Finder</string>
     <string name="back_button_text">GO BACK\n</string>
+    <string name="show_ingredients">Show Ingredients</string>
 </resources>

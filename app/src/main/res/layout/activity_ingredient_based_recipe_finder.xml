@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/back_button3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/back_arrow"
+            android:background="@android:color/system_accent2_300"
+            android:scaleX="0.4"
+            android:scaleY="0.55" />
+
+    </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEARCH BY INCREDIENT "
-        android:textSize="32sp"
+        android:text="SEARCH BY INGREDIENTS "
+        android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="24dp" />
 
-</RelativeLayout>
+</LinearLayout>

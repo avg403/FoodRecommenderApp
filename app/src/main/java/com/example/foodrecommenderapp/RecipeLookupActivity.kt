@@ -1,7 +1,9 @@
 package com.example.foodrecommenderapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageButton
 
 class RecipeLookupActivity : AppCompatActivity() {
 
@@ -9,6 +11,10 @@ class RecipeLookupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_lookup)
 
-        // Initialize UI components and set up event listeners here
+        val backButton = findViewById<AppCompatImageButton>(R.id.back_button2)
+        backButton.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
+        }
     }
 }

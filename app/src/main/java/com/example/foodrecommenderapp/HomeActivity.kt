@@ -29,6 +29,12 @@ class HomeActivity : ComponentActivity() {
             finish()
         }
 
+        val showIngredientsButton = findViewById<Button>(R.id.showIngredientsButton)
+        showIngredientsButton.setOnClickListener {
+            startActivity(Intent(this, ShowIngredientsActivity::class.java))
+            finish()
+        }
+
         val backButton = findViewById<Button>(R.id.backButton)
         backButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
