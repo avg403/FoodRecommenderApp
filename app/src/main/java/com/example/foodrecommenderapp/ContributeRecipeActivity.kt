@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,6 +72,15 @@ class ContributeRecipeActivity : AppCompatActivity() {
         cookingTimeEditText = findViewById(R.id.cooking_time)
         servingsEditText = findViewById(R.id.servings)
         cuisineEditText = findViewById(R.id.cuisine)
+
+        // Set default values for the recipe details
+        instructionsEditText.setText("")
+        imageFilePathEditText.setText("")
+        cookingTimeEditText.setText("0")
+        servingsEditText.setText("1")
+        cuisineEditText.setText("")
+
+        ingredientsAdapter.addNewIngredient()
     }
 
     private fun addNewIngredient() {
@@ -78,6 +88,29 @@ class ContributeRecipeActivity : AppCompatActivity() {
     }
 
     private fun addRecipe() {
-        // Add recipe logic here
+        val recipeName = recipeNameEditText.text.toString()
+        val instructions = instructionsEditText.text.toString()
+        val imageFilePath = imageFilePathEditText.text.toString()
+        val cookingTime = cookingTimeEditText.text.toString().toIntOrNull() ?: 0
+        val servings = servingsEditText.text.toString().toIntOrNull() ?: 0
+        val cuisine = cuisineEditText.text.toString()
+
+        if (recipeName.isNotEmpty() && instructions.isNotEmpty()) {
+            val recipe = Recipe(recipeName, instructions, imageFilePath, cookingTime, servings, cuisine)
+            val recipeId = databaseHelper.addRecipe(recipe, ingredients)
+
+            if (recipeId != -1L) {
+                showToastMessage("Recipe saved with ID: $recipeId")
+                ingredientsAdapter.updateRecipeId(recipeId.toInt())
+            } else {
+                showToastMessage("Failed to save recipe")
+            }
+        } else {
+            // Show an error message or handle the case where required fields are empty
+        }
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

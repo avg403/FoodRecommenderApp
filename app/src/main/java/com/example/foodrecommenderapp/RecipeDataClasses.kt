@@ -18,10 +18,11 @@ class Ingredient(
     val ingredientName: String
 )
 
-class RecipeIngredient(
-    val recipeId: Int,
-    val ingredientId: Int,
-    val quantity: Float,
-    val unit: String,
-    val isMainIngredient: Int = 0
+data class RecipeIngredient(
+    var recipeId: Int = 0,
+    var ingredientId: Int = 0,
+    var quantity: Float = 0f,
+    var unit: String = "",
+    var ingredientName: String = "",
+    var isMainIngredient: Int = 0
 )

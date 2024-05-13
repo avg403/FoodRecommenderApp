@@ -1,5 +1,6 @@
 package com.example.foodrecommenderapp
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -73,27 +74,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
     }
 
 
-
-
-    fun ingredientExists(ingredientName: String): Boolean {
-        val query = "SELECT * FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
-        val selectionArgs = arrayOf(ingredientName)
-        val cursor = readableDatabase.rawQuery(query, selectionArgs)
-        val exists = cursor.moveToFirst()
-        cursor.close()
-        return exists
-    }
-
-    fun addIngredient(ingredientName: String): Long {
-        if (ingredientExists(ingredientName)) {
-            return -1
-        }
-        val contentValues = ContentValues()
-        contentValues.put(INGREDIENTS_COLUMN_NAME, ingredientName)
-        return writableDatabase.insert(INGREDIENTS_TABLE_NAME, null, contentValues)
-    }
-
-
+    @SuppressLint("Range")
     fun getIngredients(): List<Map<String, String>> {
         val selectQuery = "SELECT $INGREDIENTS_COLUMN_ID, $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME"
         val db = readableDatabase
@@ -110,5 +91,133 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
         cursor.close()
         return ingredients
     }
+
+
+
+
+
+
+    fun addRecipe(recipe: Recipe, ingredients: List<RecipeIngredient>): Long {
+        val db = writableDatabase
+        db.beginTransaction()
+
+        var recipeId: Long = -1
+
+        try {
+            // Insert the recipe into the Recipes table
+            val recipeValues = ContentValues().apply {
+                put(RECIPES_COLUMN_NAME, recipe.recipeName)
+                put(RECIPES_COLUMN_INSTRUCTIONS, recipe.instructions)
+                put(RECIPES_COLUMN_IMAGE_FILE_PATH, recipe.imageFilePath)
+                put(RECIPES_COLUMN_COOKING_TIME, recipe.cookingTime)
+                put(RECIPES_COLUMN_SERVINGS, recipe.servings)
+                put(RECIPES_COLUMN_CUISINE, recipe.cuisine)
+            }
+            recipeId = db.insert(RECIPES_TABLE_NAME, null, recipeValues)
+
+            // Insert the ingredients into the RecipeIngredients table
+            if (recipeId != -1L) {
+                for (recipeIngredient in ingredients) {
+                    val ingredientValues = ContentValues().apply {
+                        put(RECIPE_INGREDIENTS_COLUMN_RECIPE_ID, recipeId)
+                        put(RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID, recipeIngredient.ingredientId)
+                        put(RECIPE_INGREDIENTS_COLUMN_QUANTITY, recipeIngredient.quantity)
+                        put(RECIPE_INGREDIENTS_COLUMN_UNIT, recipeIngredient.unit)
+                        put(RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT, recipeIngredient.isMainIngredient)
+                    }
+                    db.insert(RECIPE_INGREDIENTS_TABLE_NAME, null, ingredientValues)
+                }
+                db.setTransactionSuccessful()
+            } else {
+                // Failed to insert recipe
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            db.endTransaction()
+        }
+
+        return recipeId
+    }
+
+    private fun ingredientExists(ingredientName: String): Boolean {
+        val query = "SELECT * FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
+        val selectionArgs = arrayOf(ingredientName)
+        val cursor = readableDatabase.rawQuery(query, selectionArgs)
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
+    }
+
+
+    @SuppressLint("Range")
+    private fun getIngredientName(ingredientId: Int): String {
+        val query = "SELECT $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_ID = ?"
+        val db = readableDatabase
+        val cursor = db.rawQuery(query, arrayOf(ingredientId.toString()))
+        var ingredientName = ""
+        if (cursor.moveToFirst()) {
+            ingredientName = cursor.getString(cursor.getColumnIndex(INGREDIENTS_COLUMN_NAME))
+        }
+        cursor.close()
+        return ingredientName
+    }
+
+    @SuppressLint("Range")
+    fun getIngredientIdByName(ingredientName: String): Int {
+        val db = readableDatabase
+        val query = "SELECT $INGREDIENTS_COLUMN_ID FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
+        val cursor = db.rawQuery(query, arrayOf(ingredientName))
+        var ingredientId = -1
+
+        if (cursor.moveToFirst()) {
+            ingredientId = cursor.getInt(cursor.getColumnIndex(INGREDIENTS_COLUMN_ID))
+        }
+
+        cursor.close()
+        return ingredientId
+    }
+
+
+
+
+    // Add this function to check if an ingredient exists by name
+    fun ingredientExistsByName(ingredientName: String): Boolean {
+        val query = "SELECT * FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
+        val selectionArgs = arrayOf(ingredientName)
+        val cursor = readableDatabase.rawQuery(query, selectionArgs)
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
+    }
+
+    // Modify the addIngredient function to return the ingredientId
+    fun addIngredient(ingredientName: String): Int {
+        if (ingredientExistsByName(ingredientName)) {
+            return getIngredientIdByName(ingredientName)
+        }
+        val contentValues = ContentValues()
+        contentValues.put(INGREDIENTS_COLUMN_NAME, ingredientName)
+        val newIngredientId = writableDatabase.insert(INGREDIENTS_TABLE_NAME, null, contentValues).toInt()
+        return newIngredientId
+    }
+
+/*
+    fun deleteAllData() {
+        val db = writableDatabase
+        db.beginTransaction()
+        try {
+            db.execSQL("DELETE FROM $RECIPES_TABLE_NAME")
+            db.execSQL("DELETE FROM $INGREDIENTS_TABLE_NAME")
+            db.execSQL("DELETE FROM $RECIPE_INGREDIENTS_TABLE_NAME")
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+*/
+
+
+
 
 }
