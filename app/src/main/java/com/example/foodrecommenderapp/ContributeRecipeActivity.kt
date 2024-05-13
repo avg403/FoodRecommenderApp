@@ -38,6 +38,8 @@ class ContributeRecipeActivity : AppCompatActivity() {
 
         databaseHelper = DatabaseHelper(this)
 
+
+
         setupRecyclerView()
         setupButtons()
         setupEditTexts()

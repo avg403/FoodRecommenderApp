@@ -51,15 +51,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
                     ");"
             db.execSQL(createIngredientsTableStatement)
 
-            val createRecipeIngredientsTableStatement = "CREATE TABLE $RECIPE_INGREDIENTS_TABLE_NAME(" +
-                    "$RECIPE_INGREDIENTS_COLUMN_RECIPE_ID INTEGER NOT NULL," +
-                    "$RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID INTEGER NOT NULL," +
-                    "$RECIPE_INGREDIENTS_COLUMN_QUANTITY REAL," +
-                    "$RECIPE_INGREDIENTS_COLUMN_UNIT TEXT," +
-                    "$RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT INTEGER NOT NULL DEFAULT 0," +
-                    "FOREIGN KEY($RECIPE_INGREDIENTS_COLUMN_RECIPE_ID) REFERENCES $RECIPES_TABLE_NAME($RECIPES_COLUMN_ID)," +
-                    "FOREIGN KEY($RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID) REFERENCES $INGREDIENTS_TABLE_NAME($INGREDIENTS_COLUMN_ID)" +
-                    ");"
+            val createRecipeIngredientsTableStatement =
+                "CREATE TABLE $RECIPE_INGREDIENTS_TABLE_NAME(" +
+                        "$RECIPE_INGREDIENTS_COLUMN_RECIPE_ID INTEGER NOT NULL," +
+                        "$RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID INTEGER NOT NULL," +
+                        "$RECIPE_INGREDIENTS_COLUMN_QUANTITY REAL," +
+                        "$RECIPE_INGREDIENTS_COLUMN_UNIT TEXT," +
+                        "$RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT INTEGER NOT NULL DEFAULT 0," +
+                        "FOREIGN KEY($RECIPE_INGREDIENTS_COLUMN_RECIPE_ID) REFERENCES $RECIPES_TABLE_NAME($RECIPES_COLUMN_ID)," +
+                        "FOREIGN KEY($RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID) REFERENCES $INGREDIENTS_TABLE_NAME($INGREDIENTS_COLUMN_ID)" +
+                        ");"
             db.execSQL(createRecipeIngredientsTableStatement)
 
             db.setTransactionSuccessful()
@@ -76,25 +77,24 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
 
     @SuppressLint("Range")
     fun getIngredients(): List<Map<String, String>> {
-        val selectQuery = "SELECT $INGREDIENTS_COLUMN_ID, $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME"
+        val selectQuery =
+            "SELECT $INGREDIENTS_COLUMN_ID, $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME"
         val db = readableDatabase
         val cursor = db.rawQuery(selectQuery, null)
         val ingredients = mutableListOf<Map<String, String>>()
         if (cursor.moveToFirst()) {
             do {
                 val ingredient = HashMap<String, String>()
-                ingredient["ingredientId"] = cursor.getString(cursor.getColumnIndex(INGREDIENTS_COLUMN_ID))
-                ingredient["ingredientName"] = cursor.getString(cursor.getColumnIndex(INGREDIENTS_COLUMN_NAME))
+                ingredient["ingredientId"] =
+                    cursor.getString(cursor.getColumnIndex(INGREDIENTS_COLUMN_ID))
+                ingredient["ingredientName"] =
+                    cursor.getString(cursor.getColumnIndex(INGREDIENTS_COLUMN_NAME))
                 ingredients.add(ingredient)
             } while (cursor.moveToNext())
         }
         cursor.close()
         return ingredients
     }
-
-
-
-
 
 
     fun addRecipe(recipe: Recipe, ingredients: List<RecipeIngredient>): Long {
@@ -123,7 +123,10 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
                         put(RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID, recipeIngredient.ingredientId)
                         put(RECIPE_INGREDIENTS_COLUMN_QUANTITY, recipeIngredient.quantity)
                         put(RECIPE_INGREDIENTS_COLUMN_UNIT, recipeIngredient.unit)
-                        put(RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT, recipeIngredient.isMainIngredient)
+                        put(
+                            RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT,
+                            recipeIngredient.isMainIngredient
+                        )
                     }
                     db.insert(RECIPE_INGREDIENTS_TABLE_NAME, null, ingredientValues)
                 }
@@ -151,8 +154,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
 
 
     @SuppressLint("Range")
-    private fun getIngredientName(ingredientId: Int): String {
-        val query = "SELECT $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_ID = ?"
+    fun getIngredientName(ingredientId: Int): String {
+        val query =
+            "SELECT $INGREDIENTS_COLUMN_NAME FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_ID = ?"
         val db = readableDatabase
         val cursor = db.rawQuery(query, arrayOf(ingredientId.toString()))
         var ingredientName = ""
@@ -166,7 +170,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
     @SuppressLint("Range")
     fun getIngredientIdByName(ingredientName: String): Int {
         val db = readableDatabase
-        val query = "SELECT $INGREDIENTS_COLUMN_ID FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
+        val query =
+            "SELECT $INGREDIENTS_COLUMN_ID FROM $INGREDIENTS_TABLE_NAME WHERE $INGREDIENTS_COLUMN_NAME = ?"
         val cursor = db.rawQuery(query, arrayOf(ingredientName))
         var ingredientId = -1
 
@@ -177,8 +182,6 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
         cursor.close()
         return ingredientId
     }
-
-
 
 
     // Add this function to check if an ingredient exists by name
@@ -198,10 +201,72 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
         }
         val contentValues = ContentValues()
         contentValues.put(INGREDIENTS_COLUMN_NAME, ingredientName)
-        val newIngredientId = writableDatabase.insert(INGREDIENTS_TABLE_NAME, null, contentValues).toInt()
+        val newIngredientId =
+            writableDatabase.insert(INGREDIENTS_TABLE_NAME, null, contentValues).toInt()
         return newIngredientId
     }
 
+
+
+
+
+
+
+
+
+
+
+
+//for showing detailed recipie
+    @SuppressLint("Range")
+    fun getRecipeIngredients(recipeId: Int): List<RecipeIngredient> {
+        val db = this.readableDatabase
+        val recipeIngredients = mutableListOf<RecipeIngredient>()
+
+        val projection = arrayOf(
+            RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID,
+            RECIPE_INGREDIENTS_COLUMN_QUANTITY,
+            RECIPE_INGREDIENTS_COLUMN_UNIT,
+            RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT
+        )
+
+        val selection = "$RECIPE_INGREDIENTS_COLUMN_RECIPE_ID = ?"
+        val selectionArgs = arrayOf(recipeId.toString())
+
+        val cursor = db.query(
+            RECIPE_INGREDIENTS_TABLE_NAME,
+            projection,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val ingredientId = getInt(getColumnIndexOrThrow(RECIPE_INGREDIENTS_COLUMN_INGREDIENT_ID))
+                val quantity = getFloat(getColumnIndexOrThrow(RECIPE_INGREDIENTS_COLUMN_QUANTITY))
+                val unit = getString(getColumnIndexOrThrow(RECIPE_INGREDIENTS_COLUMN_UNIT))
+                val isMainIngredient = getInt(getColumnIndexOrThrow(RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT))
+
+                val ingredientName = getIngredientName(ingredientId)
+
+                val recipeIngredient = RecipeIngredient(recipeId, ingredientId, quantity, unit, ingredientName, isMainIngredient)
+                recipeIngredients.add(recipeIngredient)
+            }
+        }
+
+        cursor.close()
+        return recipeIngredients
+    }
+
+
+
+
+
+
+}
 /*
     fun deleteAllData() {
         val db = writableDatabase
@@ -218,6 +283,3 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
 */
 
 
-
-
-}

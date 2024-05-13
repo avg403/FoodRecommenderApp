@@ -2,34 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="15dp"
-        android:gravity="center_vertical">
+        android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/back_button3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/back_arrow"
-            android:background="@android:color/system_accent2_300"
-            android:scaleX="0.4"
-            android:scaleY="0.55" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical">
 
-    </FrameLayout>
+            <ImageButton
+                android:id="@+id/back_button3"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/back_arrow"
+                android:background="@android:color/system_accent1_300"
+                android:scaleX="0.4"
+                android:scaleY="0.55" />
 
-    <TextView
-        android:layout_width="wrap_content"
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEARCH BY INGREDIENTS "
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SEARCH BY INGREDIENTS "
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="24dp" />
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/ingredientInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter ingredient here"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:id="@+id/recommendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recommend"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"/>
+
+    </LinearLayout>
+
+    <!-- Add a RecyclerView or ListView here to display the recommended recipes -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recommendedRecipesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

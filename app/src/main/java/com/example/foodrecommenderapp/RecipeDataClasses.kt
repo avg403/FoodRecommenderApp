@@ -1,5 +1,7 @@
 package com.example.foodrecommenderapp
 
+import java.io.Serializable
+
 class Recipe(
     val recipeId: Int,
     val recipeName: String,
@@ -8,7 +10,7 @@ class Recipe(
     val cookingTime: Int,
     val servings: Int,
     val cuisine: String
-) {
+) : Serializable {
     constructor(recipeName: String, instructions: String, imageFilePath: String, cookingTime: Int, servings: Int, cuisine: String)
             : this(0, recipeName, instructions, imageFilePath, cookingTime, servings, cuisine)
 }

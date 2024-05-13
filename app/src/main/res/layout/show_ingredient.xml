@@ -5,9 +5,53 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/showIngredientContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/back_button6"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/back_arrow"
+            android:background="@android:color/holo_green_dark"
+            android:scaleX="0.4"
+            android:scaleY="0.55" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="INGREDIENTS"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:layout_below="@id/showIngredientRelativeLayout"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_marginTop="100dp">
+
+        <LinearLayout
+            android:id="@+id/showIngredientContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground" />
 
 </RelativeLayout>
