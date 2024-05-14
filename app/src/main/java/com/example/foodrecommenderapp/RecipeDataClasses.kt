@@ -28,3 +28,10 @@ data class RecipeIngredient(
     var ingredientName: String = "",
     var isMainIngredient: Int = 0
 )
+
+
+data class User(
+    val userId: Int,
+    val username: String,
+    val password: String
+)

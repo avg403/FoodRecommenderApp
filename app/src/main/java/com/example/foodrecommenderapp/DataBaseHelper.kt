@@ -28,6 +28,12 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
         const val RECIPE_INGREDIENTS_COLUMN_QUANTITY = "quantity"
         const val RECIPE_INGREDIENTS_COLUMN_UNIT = "unit"
         const val RECIPE_INGREDIENTS_COLUMN_IS_MAIN_INGREDIENT = "isMainIngredient"
+
+
+        const val USERS_TABLE_NAME = "Users"
+        const val USERS_COLUMN_ID = "userId"
+        const val USERS_COLUMN_USERNAME = "username"
+        const val USERS_COLUMN_PASSWORD = "passwordHash"
     }
 
     // this is called the first time a database is accessed. There should be code in here to create a new db
@@ -63,6 +69,13 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
                         ");"
             db.execSQL(createRecipeIngredientsTableStatement)
 
+            val createUserTableStatement = "CREATE TABLE $USERS_TABLE_NAME(" +
+                    "$USERS_COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "$USERS_COLUMN_USERNAME TEXT NOT NULL UNIQUE," +
+                    "$USERS_COLUMN_PASSWORD TEXT NOT NULL" +
+                    ");"
+            db.execSQL(createUserTableStatement)
+
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()
@@ -73,6 +86,143 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // Placeholder for upgrading tables
     }
+
+
+
+
+    //user related
+
+
+    fun authenticateUser(username: String, password: String): Boolean {
+        val query = "SELECT * FROM $USERS_TABLE_NAME WHERE $USERS_COLUMN_USERNAME = ? AND $USERS_COLUMN_PASSWORD = ?"
+        val selectionArgs = arrayOf(username, password)
+        val cursor = readableDatabase.rawQuery(query, selectionArgs)
+        val authenticated = cursor.moveToFirst()
+        cursor.close()
+        return authenticated
+    }
+
+    fun usernameExists(username: String): Boolean {
+        val query = "SELECT * FROM $USERS_TABLE_NAME WHERE $USERS_COLUMN_USERNAME = ?"
+        val selectionArgs = arrayOf(username)
+        val cursor = readableDatabase.rawQuery(query, selectionArgs)
+        val exists = cursor.moveToFirst()
+        cursor.close()
+        return exists
+    }
+
+    fun addUser(username: String, passwordHash: String): Long {
+        val values = ContentValues().apply {
+            put(USERS_COLUMN_USERNAME, username)
+            put(USERS_COLUMN_PASSWORD, passwordHash)
+        }
+        return writableDatabase.insert(USERS_TABLE_NAME, null, values)
+    }
+
+
+
+
+
+    //manageuser
+    fun getAllUsers(): List<User> {
+        val users = mutableListOf<User>()
+        val cursor = readableDatabase.query(
+            USERS_TABLE_NAME,
+            arrayOf(USERS_COLUMN_ID, USERS_COLUMN_USERNAME, USERS_COLUMN_PASSWORD),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val userId = getInt(getColumnIndexOrThrow(USERS_COLUMN_ID))
+                val username = getString(getColumnIndexOrThrow(USERS_COLUMN_USERNAME))
+                val password = getString(getColumnIndexOrThrow(USERS_COLUMN_PASSWORD))
+                users.add(User(userId, username, password))
+            }
+        }
+
+        cursor.close()
+        return users
+    }
+
+    fun deleteUser(userId: Int) {
+        writableDatabase.delete(
+            USERS_TABLE_NAME,
+            "$USERS_COLUMN_ID = ?",
+            arrayOf(userId.toString())
+        )
+    }
+
+
+
+//deleting recipie
+
+    fun getAllRecipes(): List<Recipe> {
+        val recipes = mutableListOf<Recipe>()
+        val cursor = readableDatabase.query(
+            RECIPES_TABLE_NAME,
+            arrayOf(
+                RECIPES_COLUMN_ID,
+                RECIPES_COLUMN_NAME,
+                RECIPES_COLUMN_INSTRUCTIONS,
+                RECIPES_COLUMN_IMAGE_FILE_PATH,
+                RECIPES_COLUMN_COOKING_TIME,
+                RECIPES_COLUMN_SERVINGS,
+                RECIPES_COLUMN_CUISINE
+            ),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val recipeId = getInt(getColumnIndexOrThrow(RECIPES_COLUMN_ID))
+                val recipeName = getString(getColumnIndexOrThrow(RECIPES_COLUMN_NAME))
+                val instructions = getString(getColumnIndexOrThrow(RECIPES_COLUMN_INSTRUCTIONS))
+                val imageFilePath = getString(getColumnIndexOrThrow(RECIPES_COLUMN_IMAGE_FILE_PATH))
+                val cookingTime = getInt(getColumnIndexOrThrow(RECIPES_COLUMN_COOKING_TIME))
+                val servings = getInt(getColumnIndexOrThrow(RECIPES_COLUMN_SERVINGS))
+                val cuisine = getString(getColumnIndexOrThrow(RECIPES_COLUMN_CUISINE))
+
+                val recipe = Recipe(recipeId, recipeName, instructions, imageFilePath, cookingTime, servings, cuisine)
+                recipes.add(recipe)
+            }
+        }
+
+        cursor.close()
+        return recipes
+    }
+
+    fun deleteRecipe(recipeId: Int) {
+
+        // Delete the associated entries from the RecipeIngredients table
+        writableDatabase.delete(
+            RECIPE_INGREDIENTS_TABLE_NAME,
+            "$RECIPE_INGREDIENTS_COLUMN_RECIPE_ID = ?",
+            arrayOf(recipeId.toString())
+        )
+        // Delete the recipe from the Recipes table
+        writableDatabase.delete(
+            RECIPES_TABLE_NAME,
+            "$RECIPES_COLUMN_ID = ?",
+            arrayOf(recipeId.toString())
+        )
+
+
+    }
+
+
+
+
+
+
 
 
     @SuppressLint("Range")

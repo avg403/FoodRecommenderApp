@@ -35,7 +35,7 @@
 
     </LinearLayout>
 
-    <!-- Input Fields and Button -->
+    <!-- Input Fields and Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,6 +69,8 @@
             android:textColorHint="@color/gray"
             android:maxLines="1" />
 
+
+
         <!-- Login Button -->
         <Button
             android:id="@+id/frontPageLoginButton"
@@ -84,6 +86,30 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-    </LinearLayout>
+        <!-- New Here? Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_here_text"
+            android:textSize="16sp"
+            android:textColor="@color/gray"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
 
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/frontPageSignUpButton"
+            android:layout_width="150dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:onClick="onSignUpButtonClicked"
+            android:padding="8dp"
+            android:text="@string/front_page_signup_button"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 </LinearLayout>

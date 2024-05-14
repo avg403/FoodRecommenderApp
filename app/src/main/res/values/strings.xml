@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FoodRecommenderApp</string>
-    <string name="front_page_title">LOGIN</string>
-    <string name="front_page_login_button">GET STARTED\n</string>
+    <string name="front_page_title">FOODIEE</string>
+    <string name="front_page_login_button">Feast In\n</string>
     <string name="home_page_title">Food Recommender App\n</string>
     <string name="username_input_hint">username\n</string>
     <string name="password_input_hint">password\n</string>
@@ -11,4 +11,9 @@
     <string name="ingredient_based_recipe_finder_button_text">Ingredient-based Recipe Finder</string>
     <string name="back_button_text">GO BACK\n</string>
     <string name="show_ingredients">Show Ingredients</string>
+    <string name="new_here_text">New to Our Feast? Register Now!</string>
+    <string name="front_page_signup_button">Join Feast</string>
+    <string name="welcome_admin">WELCOME ADMIN</string>
+    <string name="manage_recipe">Manage Recipe</string>
+    <string name="manage_user">Manage User</string>
 </resources>

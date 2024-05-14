@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/titleContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp">
+
+                <ImageView
+                    android:id="@+id/appLogo"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/app_logo"
+                    android:layout_marginTop="-8dp" />
+
+
+
+            <TextView
+                android:id="@+id/homePageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/welcome_admin"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#800000" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/manageRecipe"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:text="@string/manage_recipe"
+            android:layout_below="@id/titleContainer"
+            android:layout_marginStart="129dp"
+            android:layout_marginEnd="132dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/white" />
+
+
+    <Button
+        android:id="@+id/manageUser"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/titleContainer"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="114dp"
+        android:layout_marginEnd="132dp"
+        android:background="@drawable/button_background"
+        android:text="@string/manage_user"
+        android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/backButton2"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/titleContainer"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="129dp"
+            android:layout_marginEnd="132dp"
+            android:layout_marginTop="197dp"
+            android:background="@drawable/button_background"
+            android:text="@string/back_button_text"
+            android:textColor="@color/white" />
+
+
+</RelativeLayout>
