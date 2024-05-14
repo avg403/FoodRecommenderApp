@@ -196,11 +196,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "FoodRecommen
 
     // Modify the addIngredient function to return the ingredientId
     fun addIngredient(ingredientName: String): Int {
-        if (ingredientExistsByName(ingredientName)) {
-            return getIngredientIdByName(ingredientName)
+        if (ingredientExistsByName(ingredientName.lowercase())) {
+            return getIngredientIdByName(ingredientName.lowercase())
         }
         val contentValues = ContentValues()
-        contentValues.put(INGREDIENTS_COLUMN_NAME, ingredientName)
+        contentValues.put(INGREDIENTS_COLUMN_NAME, ingredientName.lowercase())
         val newIngredientId =
             writableDatabase.insert(INGREDIENTS_TABLE_NAME, null, contentValues).toInt()
         return newIngredientId

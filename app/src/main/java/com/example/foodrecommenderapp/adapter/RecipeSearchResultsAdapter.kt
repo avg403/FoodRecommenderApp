@@ -1,12 +1,15 @@
 package com.example.foodrecommenderapp.adapter
 
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodrecommenderapp.R
 import com.example.foodrecommenderapp.Recipe
+import java.io.File
 
 class RecipeSearchResultsAdapter(private val onRecipeClickListener: (Recipe) -> Unit) :
     RecyclerView.Adapter<RecipeSearchResultsAdapter.ViewHolder>() {
@@ -33,6 +36,7 @@ class RecipeSearchResultsAdapter(private val onRecipeClickListener: (Recipe) -> 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val recipeNameTextView: TextView = itemView.findViewById(R.id.recipeNameTextView)
+        private val recipeImageView: ImageView = itemView.findViewById(R.id.recipeImageView)
 
         init {
             itemView.setOnClickListener {
@@ -43,6 +47,16 @@ class RecipeSearchResultsAdapter(private val onRecipeClickListener: (Recipe) -> 
 
         fun bind(recipe: Recipe) {
             recipeNameTextView.text = recipe.recipeName
+
+            // Load the recipe image from the file path
+            val imageFile = File(recipe.imageFilePath)
+            if (imageFile.exists()) {
+                val imageBitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+                recipeImageView.setImageBitmap(imageBitmap)
+            } else {
+                // Handle the case when no image is available
+                recipeImageView.setImageResource(R.drawable.joeydoesntsharefood) // Replace with your default image resource
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,48 +15,46 @@
             android:id="@+id/back_button1"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/back_arrow"
             android:background="@android:color/holo_green_dark"
             android:scaleX="0.4"
-            android:scaleY="0.55" />
+            android:scaleY="0.55"
+            android:src="@drawable/back_arrow" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:text="ADD RECIPE"
-            android:textSize="30sp"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="10dp"/>
-
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <!-- Recipe details section -->
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <EditText
-            android:id="@+id/recipe_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Recipe Name"
-            android:inputType="text" />
-
-        <!-- Ingredients section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_weight="2"
-            >
+            android:padding="16dp">
 
+            <EditText
+                android:id="@+id/recipe_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Recipe Name"
+                android:inputType="text" />
+
+            <!-- Ingredients section -->
             <Button
                 android:id="@+id/add_ingredient_button"
                 android:layout_width="wrap_content"
@@ -69,50 +67,48 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
 
+            <EditText
+                android:id="@+id/instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Instructions"
+                android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/select_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Image" />
+
+            <EditText
+                android:id="@+id/cooking_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cooking Time"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/servings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Servings"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/cuisine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cuisine"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/add_recipe_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:text="Add Recipe" />
+
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/instructions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Instructions"
-            android:inputType="textMultiLine" />
-
-        <EditText
-            android:id="@+id/image_file_path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Image File Path"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/cooking_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cooking Time"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/servings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Servings"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/cuisine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cuisine"
-            android:inputType="text" />
-
-        <Button
-            android:id="@+id/add_recipe_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:text="Add Recipe" />
-
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

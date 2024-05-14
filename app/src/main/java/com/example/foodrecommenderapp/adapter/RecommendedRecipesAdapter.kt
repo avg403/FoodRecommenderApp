@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.foodrecommenderapp.R
 import com.example.foodrecommenderapp.Recipe
+import java.io.File
 
 class RecommendedRecipesAdapter(private val onRecipeClickListener: (Recipe) -> Unit) : RecyclerView.Adapter<RecommendedRecipesAdapter.ViewHolder>() {
 
@@ -47,8 +48,14 @@ class RecommendedRecipesAdapter(private val onRecipeClickListener: (Recipe) -> U
             recipeNameTextView.text = recipe.recipeName
 
             // Load the recipe image from the file path
-            val imageBitmap = BitmapFactory.decodeFile(recipe.imageFilePath)
-            recipeImageView.setImageBitmap(imageBitmap)
+            val imageFile = File(recipe.imageFilePath)
+            if (imageFile.exists()) {
+                val imageBitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+                recipeImageView.setImageBitmap(imageBitmap)
+            } else {
+                // Handle the case when no image is available
+                recipeImageView.setImageResource(R.drawable.joeydoesntsharefood) // Replace with your default image resource
+            }
         }
     }
 }

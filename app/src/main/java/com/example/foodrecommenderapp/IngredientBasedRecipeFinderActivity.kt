@@ -57,7 +57,7 @@ class IngredientBasedRecipeFinderActivity : AppCompatActivity() {
         // Filter recipes based on user ingredients
         for (recipe in allRecipes) {
             val recipeIngredients = getRecipeIngredients(databaseHelper, recipe.recipeId)
-            val matchingIngredients = recipeIngredients.filter { userIngredients.contains(it.ingredientName) }
+            val matchingIngredients = recipeIngredients.filter { userIngredients.map { it.lowercase() }.contains(it.ingredientName.lowercase()) }
 
             // Rank recipes based on the number of matching ingredients
             if (matchingIngredients.isNotEmpty()) {
@@ -68,7 +68,7 @@ class IngredientBasedRecipeFinderActivity : AppCompatActivity() {
         // Sort recommended recipes based on the number of matching ingredients (descending order)
         recommendedRecipes.sortByDescending { recipe ->
             val recipeIngredients = getRecipeIngredients(databaseHelper, recipe.recipeId)
-            val matchingIngredients = recipeIngredients.filter { userIngredients.contains(it.ingredientName) }
+            val matchingIngredients = recipeIngredients.filter { userIngredients.map { it.lowercase() }.contains(it.ingredientName.lowercase()) }
             matchingIngredients.size
         }
 

@@ -18,13 +18,15 @@ class RecipeLookupActivity : AppCompatActivity() {
     private lateinit var recipeSearchResultsAdapter: RecipeSearchResultsAdapter
     private lateinit var databaseHelper: DatabaseHelper
 
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe_lookup)
 
-        val backButton = findViewById<ImageButton>(R.id.back_button2)
+        val backButton = findViewById<AppCompatImageButton>(R.id.back_button2)
         backButton.setOnClickListener {
-            onBackPressed()
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
 
         val recipeNameSearchEditText = findViewById<EditText>(R.id.recipeNameSearchEditText)

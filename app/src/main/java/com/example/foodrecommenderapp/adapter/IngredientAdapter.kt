@@ -25,14 +25,17 @@ class IngredientAdapter(private val ingredients: MutableList<RecipeIngredient>, 
         val ingredientQuantityEditText: EditText = itemView.findViewById(R.id.ingredient_quantity)
         val ingredientUnitEditText: EditText = itemView.findViewById(R.id.ingredient_unit)
         val ingredientTypeRadioGroup: RadioGroup = itemView.findViewById(R.id.ingredient_type_group)
-        val deleteIngredientButton: ImageButton =
-            itemView.findViewById(R.id.delete_ingredient_button)
+        val deleteIngredientButton: ImageButton = itemView.findViewById(R.id.delete_ingredient_button)
 
         init {
             deleteIngredientButton.setOnClickListener {
-                // Delete the ingredient at the current position
-                adapter.ingredients.removeAt(adapterPosition)
-                adapter.notifyItemRemoved(adapterPosition)
+                val recyclerView = itemView.parent as RecyclerView
+                val position = recyclerView.getChildAdapterPosition(itemView)
+                if (position != RecyclerView.NO_POSITION) {
+                    // Remove the ingredient at the current position
+                    adapter.ingredients.removeAt(position)
+                    adapter.notifyItemRemoved(position)
+                }
             }
         }
     }
@@ -102,15 +105,18 @@ class IngredientAdapter(private val ingredients: MutableList<RecipeIngredient>, 
         if (ingredientName.isNotEmpty()) {
             val ingredientId = databaseHandler.addIngredient(ingredientName)
             if (ingredientId != -1) {
-                val recipeIngredient = RecipeIngredient(
-                    ingredientId = ingredientId,
-                    quantity = ingredientQuantity,
-                    unit = ingredientUnit,
-                    ingredientName = ingredientName,
-                    isMainIngredient = isMainIngredient
-                )
-                adapter.ingredients[holder.adapterPosition] = recipeIngredient
-                adapter.notifyItemChanged(holder.adapterPosition)
+                val position = holder.adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val recipeIngredient = RecipeIngredient(
+                        ingredientId = ingredientId,
+                        quantity = ingredientQuantity,
+                        unit = ingredientUnit,
+                        ingredientName = ingredientName,
+                        isMainIngredient = isMainIngredient
+                    )
+                    adapter.ingredients[position] = recipeIngredient
+                    adapter.notifyItemChanged(position)
+                }
             }
         }
     }
